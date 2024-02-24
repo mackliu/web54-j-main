@@ -15,14 +15,17 @@
     $sql2 = "INSERT INTO `tickets` ( `first_name`, `last_name`, `phone`, `password`)
               VALUES ( '{$_POST["first_name"]}', '{$_POST["last_name"]}', '{$_POST["phone"]}', '{$_POST["password"]}')";
     session_start();
+/*     print_r($_POST);
+    echo $_SESSION['answer']; */
     if($_POST["ver"] == $_SESSION['answer']){
         $pdo->exec($sql2);
-        header("location:index.html"); //跳頁 location指位址
-    }else{
+        echo 1;
+        /* header("location:index.html"); //跳頁 location指位址 */
+    }/* else{
         echo "
             <script>
             alert('驗證碼錯誤')
             location.href = 'index.html'
             </script>";
-    }
+    } */
 

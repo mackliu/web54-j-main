@@ -53,7 +53,7 @@
 </header>
 <!--設定main區的內距空間為p-5的距離-->  
 <main class="p-5 mx-auto w-75">
-    <form action="./backend.php" method="post">
+    <!-- <form action="./backend.php" method="post"> -->
         <div class="form-group">
           <label for="first_name">First name(名字)</label>
           <input type="text" class="form-control" name="first_name" id="first_name">
@@ -76,10 +76,11 @@
             <input type="button" value="refresh" onclick="code()">
             <label for="ver">Verification(數字驗證)</label>
             <input type="text" class="form-control" name="ver" id="ver">
-            <input type="hidden" id="answer" name="answer">
+            <!-- <input type="hidden" id="answer" name="answer"> -->
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+        <button type="button" onclick="save()" class="btn btn-primary">Submit</button>
+        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+    <!-- </form> -->
 </main>
 <!--設定footer區的底色為藍色，並設定footer區內的元件都以置中方式安排
     另外設定footer區內的元件會自動斷行-->
@@ -110,7 +111,29 @@
         })
     }
 
+    function save(){
 
+        let data={'first_name':$("#first_name").val(),
+                  'last_name':$("#last_name").val(),
+                  'phone':$("#phone").val(),
+                  'password':$("#password").val(),
+                  'ver':$("#ver").val()
+                }
+        if(data.first_name=='' || data.last_name=='' || data.phone=='' || data.password=='' || data.ver=='')
+        {
+            alert("所有欄位都必須填寫,不得為空")
+            return 
+        }
+
+          $.post('backend.php',data,(res)=>{
+                if(parseInt(res)==1){
+                    location.href='index.html';
+                }else{
+                    alert('驗證碼錯誤')
+                    code()
+                }
+          })      
+    }
 
 
 
