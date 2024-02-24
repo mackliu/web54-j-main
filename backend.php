@@ -7,25 +7,18 @@
     // PDO 裡面要放入三個參數， 1. 連線資訊，2. 連線的使用者 3. 連線的使用者密碼
     $pdo = new PDO($connect,"root","");
 
-/*     echo $_POST["first_name"]; */
-
-    // $sql = "insert into tickets values('','{$_POST["first_name"]}',
-    //  '{$_POST["last_name"]}','{$_POST["phone"]}','{$_POST["password"]}')";
-
+    //建立新增資料的SQL語法
     $sql2 = "INSERT INTO `tickets` ( `first_name`, `last_name`, `phone`, `password`)
               VALUES ( '{$_POST["first_name"]}', '{$_POST["last_name"]}', '{$_POST["phone"]}', '{$_POST["password"]}')";
+    
+    //啟用session功能
     session_start();
-/*     print_r($_POST);
-    echo $_SESSION['answer']; */
+    //判斷ajax傳來的表單資料中的驗證碼是否和session中的驗碼碼一致
     if($_POST["ver"] == $_SESSION['answer']){
+        
+        //執行新增訂單的SQL語法
         $pdo->exec($sql2);
-        echo 1;
-        /* header("location:index.html"); //跳頁 location指位址 */
-    }/* else{
-        echo "
-            <script>
-            alert('驗證碼錯誤')
-            location.href = 'index.html'
-            </script>";
-    } */
 
+        //回傳1給前端
+        echo 1;
+    }

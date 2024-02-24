@@ -54,6 +54,7 @@
 <!--設定main區的內距空間為p-5的距離-->  
 <main class="p-5 mx-auto w-75">
     <!-- <form action="./backend.php" method="post"> -->
+    <div class="w-50 mx-auto">
         <div class="form-group">
           <label for="first_name">First name(名字)</label>
           <input type="text" class="form-control" name="first_name" id="first_name">
@@ -72,13 +73,18 @@
         </div>
         <p id="ver_number"></p>
         <div class="form-group">
-            <div class="border rounded col-1" style="height:40px;line-height: 40px;" id="num"></div>
-            <input type="button" value="refresh" onclick="code()">
             <label for="ver">Verification(數字驗證)</label>
-            <input type="text" class="form-control" name="ver" id="ver">
+            <!--建立一個區塊來放置輸入框、驗證碼及重置按鈕-->
+            <div class="d-flex">
+                <input type="text" class="form-control" name="ver" id="ver">
+                <div class="border ml-2 rounded col-2 font-weight-bold  text-center" style="height:40px;line-height: 40px;" id="num"></div>
+                                                                <!--按鈕被點擊時，執行code()函式-->
+                <input class="mx-1 btn btn-info " type="button" value="Refresh" onclick="code()">
+            </div>
             <!-- <input type="hidden" id="answer" name="answer"> -->
         </div>
         <button type="button" onclick="save()" class="btn btn-primary">Submit</button>
+    </div>
         <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
     <!-- </form> -->
 </main>
@@ -102,34 +108,50 @@
     <!--再接著引入bootstrap.js-->
     <script src="bootstrap.js"></script>
     <script>
-
+    //畫面載入完成後，執行code()函式
     code();
-
+    
+    //定義code()函式
     function code(){
+
+        //使用ajax技術呼叫number.php程式,並取得驗證碼
         $.get("number.php",(num)=>{
+
+            //將取得的驗證碼放置到id為num的元件
             $("#num").text(num)
         })
     }
 
+    //定義save()函式
     function save(){
-
+        //取得使用者輸入的表單資料
         let data={'first_name':$("#first_name").val(),
                   'last_name':$("#last_name").val(),
                   'phone':$("#phone").val(),
                   'password':$("#password").val(),
                   'ver':$("#ver").val()
                 }
+
+        //判斷是否有欄位為空值
         if(data.first_name=='' || data.last_name=='' || data.phone=='' || data.password=='' || data.ver=='')
         {
+            //若有欄位為空值，則顯示警告訊息
             alert("所有欄位都必須填寫,不得為空")
+
+            //離開save()函式
             return 
         }
-
+        
+         //若表單欄位都有填寫則使用ajax技術呼叫backend.php程式,並將表單資料傳送給它
           $.post('backend.php',data,(res)=>{
+                //若回傳值為1，表示訂票成功，則轉址到index.html
                 if(parseInt(res)==1){
                     location.href='index.html';
                 }else{
+                    //若回傳值為0，表示驗證碼錯誤，則顯示警告訊息
                     alert('驗證碼錯誤')
+
+                    //並重新執行code()函式，來取得新的驗證碼
                     code()
                 }
           })      
