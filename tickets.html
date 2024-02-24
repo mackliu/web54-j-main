@@ -72,6 +72,8 @@
         </div>
         <p id="ver_number"></p>
         <div class="form-group">
+            <div class="border rounded col-1" style="height:40px;line-height: 40px;" id="num"></div>
+            <input type="button" value="refresh" onclick="code()">
             <label for="ver">Verification(數字驗證)</label>
             <input type="text" class="form-control" name="ver" id="ver">
             <input type="hidden" id="answer" name="answer">
@@ -90,7 +92,6 @@
             <img src="./img/icon_twtter.png"  style="width:35px;">
             <img src="./img/icon_youtube.png"  style="width:35px;">
         </div>
-        <input type="text" value="112" name="" id="test">
        
             <!--設定尾註區的寬度為100%，並設定尾註區的文字顏色為白色-->
         <div class="text-center text-white w-100">Copyright &copy; 2024 FIBEX All Rights Reserved</div>
@@ -100,7 +101,20 @@
     <!--再接著引入bootstrap.js-->
     <script src="bootstrap.js"></script>
     <script>
-        let ver_number = document.getElementById("ver_number");
+
+    code();
+
+    function code(){
+        $.get("number.php",(num)=>{
+            $("#num").text(num)
+        })
+    }
+
+
+
+
+
+/*         let ver_number = document.getElementById("ver_number");
         let answer = document.getElementById("answer");
         
         // floor 無條件捨去 random產生一個小於1的數字
@@ -111,7 +125,7 @@
         console.log(random);
         console.log(hi_random);
         ver_number.innerText = ez_random; // 放置驗證碼到顯示的位置
-        answer.value = ez_random; // 放置驗證碼到input欄位
+        answer.value = ez_random; // 放置驗證碼到input欄位 */
     </script>
 </body>
 </html>
